@@ -1,9 +1,16 @@
 <h2>Contact List</h2>
 
-<div *ngIf="contacts.length === 0">No contacts available.</div>
+<input
+  type="text"
+  [(ngModel)]="searchTerm"
+  placeholder="Search by name, email or phone..."
+  style="margin-bottom: 1rem; width: 100%; padding: 0.5rem;"
+/>
+
+<div *ngIf="filteredContacts.length === 0">No contacts found.</div>
 
 <ul>
-  <li *ngFor="let contact of contacts">
+  <li *ngFor="let contact of filteredContacts">
     <strong>{{ contact.name }}</strong><br />
     📧 {{ contact.email }} <br />
     📞 {{ contact.phone }} <br />
