@@ -1,0 +1,14 @@
+<h2>Contact List</h2>
+
+<div *ngIf="contacts.length === 0">No contacts available.</div>
+
+<ul>
+  <li *ngFor="let contact of contacts">
+    <strong>{{ contact.name }}</strong><br />
+    📧 {{ contact.email }} <br />
+    📞 {{ contact.phone }} <br />
+    <button (click)="goToEdit(contact.id)">Edit</button>
+    <button (click)="deleteContact(contact.id)">Delete</button>
+    <hr />
+  </li>
+</ul>
