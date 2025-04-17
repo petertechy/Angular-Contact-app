@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ContactService } from '../../services/contact.service';
 import { Router } from '@angular/router';
 import { Contact } from '../../models/contact.model';
+import { ToastService } from '../../services/toast.service'; 
 
 @Component({
   selector: 'app-contact-add',
@@ -19,7 +20,11 @@ export class ContactAddComponent {
     phone: '',
   };
 
-  constructor(private contactService: ContactService, private router: Router) {}
+  constructor(
+    private contactService: ContactService,
+    private router: Router,
+    private toastService: ToastService
+  ) {}
 
   addContact(): void {
     const { name, email, phone } = this.contact;
@@ -37,6 +42,7 @@ export class ContactAddComponent {
     };
 
     this.contactService.addContact(newContact);
+    this.toastService.showToast('Contact added successfully!'); 
     this.router.navigate(['/']);
   }
 }
