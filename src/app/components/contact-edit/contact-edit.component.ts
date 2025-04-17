@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ContactService } from '../../services/contact.service';
 import { Contact } from '../../models/contact.model';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-contact-edit',
@@ -18,7 +19,8 @@ export class ContactEditComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private contactService: ContactService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +44,7 @@ export class ContactEditComponent implements OnInit {
     }
 
     this.contactService.updateContact(this.contact);
+    this.toastService.showToast('Contact updated successfully!');
     this.router.navigate(['/']);
   }
 }
