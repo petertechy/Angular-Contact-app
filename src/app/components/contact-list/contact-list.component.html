@@ -1,21 +1,45 @@
-<h2>Contact List</h2>
+<div class="container mt-4">
+  <h2>Contact List</h2>
 
-<input
-  type="text"
-  [(ngModel)]="searchTerm"
-  placeholder="Search by name, email or phone..."
-  style="margin-bottom: 1rem; width: 100%; padding: 0.5rem;"
-/>
+  <!-- Search Input -->
+  <div class="mb-3">
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      class="form-control"
+      placeholder="Search by name, email or phone..."
+    />
+  </div>
 
-<div *ngIf="filteredContacts.length === 0">No contacts found.</div>
+  <!-- No Contacts Message -->
+  <div *ngIf="filteredContacts.length === 0" class="alert alert-warning">
+    No contacts found.
+  </div>
 
-<ul>
-  <li *ngFor="let contact of filteredContacts">
-    <strong>{{ contact.name }}</strong><br />
-    📧 {{ contact.email }} <br />
-    📞 {{ contact.phone }} <br />
-    <button (click)="goToEdit(contact.id)">Edit</button>
-    <button (click)="deleteContact(contact.id)">Delete</button>
-    <hr />
-  </li>
-</ul>
+  <!-- Contact Cards -->
+  <div class="row">
+    <div *ngFor="let contact of filteredContacts" class="col-md-6 mb-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{{ contact.name }}</h5>
+          <p class="card-text">
+            📧 {{ contact.email }}<br />
+            📞 {{ contact.phone }}
+          </p>
+          <button
+            (click)="goToEdit(contact.id)"
+            class="btn btn-outline-primary btn-sm me-2"
+          >
+            Edit
+          </button>
+          <button
+            (click)="deleteContact(contact.id)"
+            class="btn btn-outline-danger btn-sm"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
