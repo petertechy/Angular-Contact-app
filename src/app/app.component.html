@@ -1,14 +1,35 @@
-<!-- Toast message -->
-<div *ngIf="toastMessage" class="toast">
-  {{ toastMessage }}
+<!-- Toast Message -->
+<div
+  class="position-fixed top-0 end-0 p-3"
+  style="z-index: 1055"
+  *ngIf="toastMessage"
+>
+  <div
+    class="toast show text-white bg-success border-0"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+  >
+    <div class="d-flex">
+      <div class="toast-body">{{ toastMessage }}</div>
+      <button
+        type="button"
+        class="btn-close btn-close-white me-2 m-auto"
+        aria-label="Close"
+        (click)="toastService.toastMessage = ''"
+      ></button>
+    </div>
+  </div>
 </div>
+
+<!-- Main App UI -->
 <div class="container">
   <h1 class="mt-4">{{ title }}</h1>
-  
-  
+
   <nav class="my-3">
     <a routerLink="/" class="btn btn-secondary me-2">Contact List</a>
     <a routerLink="/add" class="btn btn-success">Add Contact</a>
   </nav>
+
   <router-outlet></router-outlet>
 </div>
