@@ -1,7 +1,7 @@
 export interface Contact {
-    id: number;
-    name: string;
-    email: string;
-    phone: string;
-  }
-  
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  isFavorite?: boolean;
+}
