@@ -2,6 +2,13 @@
   <h2>Contact List</h2>
 
   <!-- Search Input -->
+  <button
+  class="btn btn-outline-warning mb-2"
+  (click)="showFavoritesOnly = !showFavoritesOnly"
+>
+  {{ showFavoritesOnly ? 'Show All Contacts' : 'Show Favorites Only' }}
+</button>
+
   <div class="mb-3">
     <input
       type="text"
@@ -26,6 +33,19 @@
             📧 {{ contact.email }}<br />
             📞 {{ contact.phone }}
           </p>
+          
+          <button
+            (click)="toggleFavorite(contact.id)"
+            [class]="
+              contact.isFavorite
+                ? 'btn btn-warning btn-sm me-2'
+                : 'btn btn-outline-warning btn-sm me-2'
+            "
+            title="Toggle Favorite"
+          >
+            ★
+          </button>
+
           <button
             (click)="goToEdit(contact.id)"
             class="btn btn-outline-primary btn-sm me-2"
