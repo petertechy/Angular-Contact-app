@@ -37,4 +37,13 @@ export class ContactService {
     );
     this.saveContacts(contacts);
   }
+  toggleFavorite(id: number): void {
+    const contacts = this.getContacts().map(contact =>
+      contact.id === id
+        ? { ...contact, isFavorite: !contact.isFavorite }
+        : contact
+    );
+    this.saveContacts(contacts);
+  }
+  
 }
