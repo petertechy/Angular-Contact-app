@@ -40,12 +40,31 @@ export class ContactListComponent implements OnInit {
     this.router.navigate(['/edit', id]);
   }
 
-  get filteredContacts(): Contact[] {
+  showFavoritesOnly: boolean = false;
+
+get filteredContacts(): Contact[] {
+  let result = this.contacts;
+
+  if (this.searchTerm.trim()) {
     const term = this.searchTerm.toLowerCase();
-    return this.contacts.filter(contact =>
+    result = result.filter(contact =>
       contact.name.toLowerCase().includes(term) ||
       contact.email.toLowerCase().includes(term) ||
       contact.phone.toLowerCase().includes(term)
     );
   }
+
+  if (this.showFavoritesOnly) {
+    result = result.filter(contact => contact.isFavorite);
+  }
+
+  return result;
+}
+
+
+  toggleFavorite(id: number): void {
+    this.contactService.toggleFavorite(id);
+    this.loadContacts(); // refresh the list
+  }
+  
 }
