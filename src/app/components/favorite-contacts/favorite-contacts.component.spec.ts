@@ -1,36 +1,57 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FavoriteContactsComponent } from './favorite-contacts.component';
 import { ContactService } from '../../services/contact.service';
-import { Contact } from '../../models/contact.model';
 import { Router } from '@angular/router';
+import { Contact } from '../../models/contact.model';
 
-@Component({
-  selector: 'app-favorite-contacts',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './favorite-contacts.component.html',
-  styleUrls: ['./favorite-contacts.component.css'],
-})
-export class FavoriteContactsComponent implements OnInit {
-  favoriteContacts: Contact[] = [];
+describe('FavoriteContactsComponent', () => {
+  let component: FavoriteContactsComponent;
+  let fixture: ComponentFixture<FavoriteContactsComponent>;
+  let contactService: jasmine.SpyObj<ContactService>;
 
-  constructor(private contactService: ContactService, private router: Router) {}
+  beforeEach(async () => {
+    const contactSpy = jasmine.createSpyObj('ContactService', ['getContacts', 'toggleFavorite']);
 
-  ngOnInit(): void {
-    this.loadFavorites();
-  }
+    await TestBed.configureTestingModule({
+      imports: [FavoriteContactsComponent],
+      providers: [
+        { provide: ContactService, useValue: contactSpy },
+        { provide: Router, useValue: jasmine.createSpyObj('Router', ['navigate']) }
+      ],
+    }).compileComponents();
 
-  loadFavorites(): void {
-    const allContacts = this.contactService.getContacts();
-    this.favoriteContacts = allContacts.filter(c => c.isFavorite);
-  }
+    fixture = TestBed.createComponent(FavoriteContactsComponent);
+    component = fixture.componentInstance;
+    contactService = TestBed.inject(ContactService) as jasmine.SpyObj<ContactService>;
+    fixture.detectChanges();
+  });
 
-  goToEdit(id: number): void {
-    this.router.navigate(['/edit', id]);
-  }
+  it('should create the component', () => {
+    expect(component).toBeTruthy();
+  });
 
-  toggleFavorite(id: number): void {
-    this.contactService.toggleFavorite(id);
-    this.loadFavorites(); // refresh filtered list
-  }
-}
+  it('should load favorite contacts on init', () => {
+    const mockContacts: Contact[] = [
+      {
+        id: 1,
+        name: 'Alice',
+        email: 'alice@example.com',
+        phone: '1234567890',
+        isFavorite: true
+      },
+      {
+        id: 2,
+        name: 'Bob',
+        email: 'bob@example.com',
+        phone: '0987654321',
+        isFavorite: false
+      }
+    ];
+    
+
+    contactService.getContacts.and.returnValue(mockContacts);
+    component.loadFavorites();
+    expect(component.favoriteContacts.length).toBe(1);
+    expect(component.favoriteContacts[0].name).toBe('Alice');
+  });
+});
