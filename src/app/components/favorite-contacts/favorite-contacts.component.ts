@@ -7,17 +7,14 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-favorite-contacts',
   standalone: true,
-  imports: [CommonModule], // ✅ Keep only CommonModule
+  imports: [CommonModule],
   templateUrl: './favorite-contacts.component.html',
   styleUrls: ['./favorite-contacts.component.css'],
 })
 export class FavoriteContactsComponent implements OnInit {
   favoriteContacts: Contact[] = [];
 
-  constructor(
-    private contactService: ContactService,
-    private router: Router
-  ) {}
+  constructor(private contactService: ContactService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadFavorites();
@@ -25,15 +22,22 @@ export class FavoriteContactsComponent implements OnInit {
 
   loadFavorites(): void {
     const allContacts = this.contactService.getContacts();
-    this.favoriteContacts = allContacts.filter(c => c.isFavorite);
+    this.favoriteContacts = allContacts.filter((c) => c.isFavorite);
   }
 
   goToEdit(id: number): void {
     this.router.navigate(['/edit', id]);
   }
 
+  slashedId: number | null = null;
+
   toggleFavorite(id: number): void {
-    this.contactService.toggleFavorite(id);
-    this.loadFavorites();
+    this.slashedId = id;
+
+    setTimeout(() => {
+      this.contactService.toggleFavorite(id);
+      this.loadFavorites();
+      this.slashedId = null;
+    }, 500);
   }
 }
