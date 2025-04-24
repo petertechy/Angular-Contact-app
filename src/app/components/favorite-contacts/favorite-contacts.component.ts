@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 })
 export class FavoriteContactsComponent implements OnInit {
   favoriteContacts: Contact[] = [];
+  slashedId: number | null = null;
 
   constructor(private contactService: ContactService, private router: Router) {}
 
@@ -29,8 +30,6 @@ export class FavoriteContactsComponent implements OnInit {
     this.router.navigate(['/edit', id]);
   }
 
-  slashedId: number | null = null;
-
   toggleFavorite(id: number): void {
     this.slashedId = id;
 
@@ -40,4 +39,24 @@ export class FavoriteContactsComponent implements OnInit {
       this.slashedId = null;
     }, 500);
   }
+
+  addRippleEffect(event: MouseEvent): void {
+    const button = event.currentTarget as HTMLElement;
+    const rect = button.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    const x = event.clientX - rect.left - size / 2;
+    const y = event.clientY - rect.top - size / 2;
+  
+    const ripple = document.createElement('span');
+    ripple.style.width = ripple.style.height = `${size}px`;
+    ripple.style.left = `${x}px`;
+    ripple.style.top = `${y}px`;
+  
+    button.appendChild(ripple);
+  
+    // Remove the ripple element after the animation is complete
+    setTimeout(() => ripple.remove(), 600);
+  }
+  
+
 }
