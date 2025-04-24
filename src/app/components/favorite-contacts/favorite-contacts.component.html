@@ -1,32 +1,37 @@
 <div class="container mt-4">
-    <h2>Favorite Contacts</h2>
+    <h2 class="mb-4">Favorite Contacts</h2>
   
+    <!-- Show message if no favorites -->
     <div *ngIf="favoriteContacts.length === 0" class="alert alert-info">
       No favorite contacts yet.
     </div>
   
+    <!-- Favorite contacts card grid -->
     <div class="row">
       <div *ngFor="let contact of favoriteContacts" class="col-md-6 mb-4">
-        <div class="card shadow-sm">
+        <div class="card shadow-sm h-100">
           <div class="card-body">
-            <h5 class="card-title">{{ contact.name }}</h5>
-            <p class="card-text">
+            <h5 class="card-title mb-2">{{ contact.name }}</h5>
+            <p class="card-text mb-3">
               📧 {{ contact.email }}<br />
               📞 {{ contact.phone }}
             </p>
-            <button
-              (click)="toggleFavorite(contact.id)"
-              class="btn btn-warning btn-sm me-2"
-              title="Unmark Favorite"
-            >
-              ★
-            </button>
-            <button
-              (click)="goToEdit(contact.id)"
-              class="btn btn-outline-primary btn-sm"
-            >
-              Edit
-            </button>
+            <div class="d-flex justify-content-end">
+              <button
+                (click)="toggleFavorite(contact.id)"
+                class="btn btn-warning btn-sm me-2"
+                title="Unmark Favorite"
+              >
+                ★
+              </button>
+              <button
+                (click)="goToEdit(contact.id)"
+                class="btn btn-outline-primary btn-sm"
+                title="Edit Contact"
+              >
+                Edit
+              </button>
+            </div>
           </div>
         </div>
       </div>
