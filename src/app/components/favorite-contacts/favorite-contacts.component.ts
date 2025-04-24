@@ -1,11 +1,39 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ContactService } from '../../services/contact.service';
+import { Contact } from '../../models/contact.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-favorite-contacts',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule], // ✅ Keep only CommonModule
   templateUrl: './favorite-contacts.component.html',
-  styleUrl: './favorite-contacts.component.css'
+  styleUrls: ['./favorite-contacts.component.css'],
 })
-export class FavoriteContactsComponent {
+export class FavoriteContactsComponent implements OnInit {
+  favoriteContacts: Contact[] = [];
 
+  constructor(
+    private contactService: ContactService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.loadFavorites();
+  }
+
+  loadFavorites(): void {
+    const allContacts = this.contactService.getContacts();
+    this.favoriteContacts = allContacts.filter(c => c.isFavorite);
+  }
+
+  goToEdit(id: number): void {
+    this.router.navigate(['/edit', id]);
+  }
+
+  toggleFavorite(id: number): void {
+    this.contactService.toggleFavorite(id);
+    this.loadFavorites();
+  }
 }
