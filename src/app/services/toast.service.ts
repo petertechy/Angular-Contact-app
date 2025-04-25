@@ -12,5 +12,5 @@ export class ToastService {
     setTimeout(() => {
       this.toastMessage = '';
     }, 3000);
-  }
+  } 
 }
